@@ -1,0 +1,21 @@
+<launch>
+    <node pkg="rviz"    type="rviz" name="rviz" args="-d $(find argo_tracking)/rviz_config/tracking_result_viz.rviz"/>
+    
+    <arg name="scene_name"              default="0f0d7759-fa6e-3296-b528-6c862d061bdd"/>
+    <arg name="tracking_result_folder"  default="/home/ee904/SDC_lecture/hw5_noetic_ws/src/argoverse_cbgs_kf_tracker/temp_files/test-split-track-preds-maxage15-minhits5-conf0.3"/>
+    <arg name="argo_data_folder"        default="/home/ee904/SDC_lecture/hw5_noetic_ws/src/tracking_test_v1.1/argoverse-tracking/test"/>
+    <arg name="detection_folder"        default="/home/ee904/SDC_lecture/hw5_noetic_ws/src/argoverse_detections_2020/testing"/>
+    
+
+    <node pkg ="argo_tracking"   type="viz_track_result" name="viz_result"   output="screen">
+        <param name ="log_path"             type="string"       value="$(arg argo_data_folder)/$(arg scene_name)"/>
+        <param name ="label_path"           type="string"       value="$(arg tracking_result_folder)/$(arg scene_name)"/>
+        <param name ="det_path"             type="string"       value="$(arg detection_folder)/$(arg scene_name)"/>
+        <param name ="play_rate"            type="int"          value="5"/>
+        <param name ="id_type"              type="string"       value="uuid"/>
+        <param name ="rviz_wating_time"     type="double"       value="3.0"/>
+    </node>
+    <node pkg="playvideo" name="play" type="play.py" output="screen"/> 
+        <param name ="log_path"             type="string"       value="$(arg argo_data_folder)/$(arg scene_name)"/>
+
+</launch>
